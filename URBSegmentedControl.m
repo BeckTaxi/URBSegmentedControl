@@ -635,18 +635,12 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		self.titleLabel.textAlignment = UITextAlignmentCenter;
 		
 		self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-		self.imageView.layer.shadowColor = [UIColor blackColor].CGColor;
-		self.imageView.layer.shadowOffset = CGSizeMake(0.0, 1.0);
-		self.imageView.layer.shadowRadius = 0;
-		self.imageView.layer.shadowOpacity = 0.0;
 		self.imageView.layer.shouldRasterize = YES;
 		self.imageView.layer.rasterizationScale = self.imageView.image.scale;
 		self.imageView.layer.masksToBounds = NO;
 		
 		self.layer.shadowColor = [UIColor blackColor].CGColor;
 		self.layer.shadowOffset = CGSizeMake(0.0, 0.5);
-		self.layer.shadowRadius = 2.0;
-		self.layer.shadowOpacity = 0.0;
 		self.layer.masksToBounds = NO;
 		
 		self.imageBackgroundColor = [UIColor redColor];
@@ -726,14 +720,6 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 
 	self.imageView.frame = imageFrame;
 	self.titleLabel.frame = titleFrame;
-	
-	if (self.selected)
-		self.titleLabel.shadowOffset = CGSizeMake(0.0f, -0.5f);
-	else
-		self.titleLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
-	
-	self.imageView.layer.shadowOffset = self.titleLabel.shadowOffset;
-	
 }
 
 #pragma mark - Properties
@@ -811,8 +797,8 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 	// colors
 	UIColor *segmentGradientTopColor = (self.showsGradient) ? [self.imageBackgroundColor adjustBrightness:1.2] : self.imageBackgroundColor;
 	UIColor *segmentGradientBottomColor = (self.showsGradient) ? [self.imageBackgroundColor adjustBrightness:0.8] : self.imageBackgroundColor;
-	UIColor *segmentStrokeColor = [self.imageBackgroundColor adjustBrightness:0.5];
-	UIColor *segmentHighlight = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
+	UIColor *segmentStrokeColor = self.imageBackgroundColor;
+	UIColor *segmentHighlight = self.imageBackgroundColor;
 	
 	// gradients
 	CGGradientRef segmentGradient = NULL;
