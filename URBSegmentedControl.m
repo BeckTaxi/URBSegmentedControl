@@ -433,8 +433,8 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 	
 	// shadows
 	UIColor* baseInnerShadow = [UIColor blackColor];
-	CGSize baseInnerShadowOffset = CGSizeMake(0.1, 1.1);
-	CGFloat baseInnerShadowBlurRadius = 3;
+	CGSize baseInnerShadowOffset = CGSizeMake(0.0, 1.0);
+	CGFloat baseInnerShadowBlurRadius = 0;
 	
 	{
 		// base path
@@ -633,14 +633,13 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		
 		self.titleLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		self.titleLabel.textAlignment = UITextAlignmentCenter;
+        self.titleLabel.adjustsFontSizeToFitWidth = YES;
 		
 		self.imageView.contentMode = UIViewContentModeScaleAspectFit;
 		self.imageView.layer.shouldRasterize = YES;
 		self.imageView.layer.rasterizationScale = self.imageView.image.scale;
 		self.imageView.layer.masksToBounds = NO;
 		
-		self.layer.shadowColor = [UIColor blackColor].CGColor;
-		self.layer.shadowOffset = CGSizeMake(0.0, 0.5);
 		self.layer.masksToBounds = NO;
 		
 		self.imageBackgroundColor = [UIColor redColor];
@@ -787,30 +786,21 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 	CGSize size = CGSizeMake(20.0, 20.0);
 	UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
 	
-	CGFloat stroke = 2.0;
-	CGFloat radius = self.cornerRadius - 1.0;
+	CGFloat stroke = 0.0;
+	CGFloat radius = self.cornerRadius - 0.0;
 	CGRect frame = CGRectMake(0, 0, size.width, size.height);
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	// colors
-	UIColor *segmentGradientTopColor = (self.showsGradient) ? [self.imageBackgroundColor adjustBrightness:1.2] : self.imageBackgroundColor;
-	UIColor *segmentGradientBottomColor = (self.showsGradient) ? [self.imageBackgroundColor adjustBrightness:0.8] : self.imageBackgroundColor;
 	UIColor *segmentStrokeColor = self.imageBackgroundColor;
 	UIColor *segmentHighlight = self.imageBackgroundColor;
 	
-	// gradients
-	CGGradientRef segmentGradient = NULL;
-	if (segmentGradientTopColor && segmentGradientBottomColor) {
-		NSArray *segmentGradientColors = @[(id)segmentGradientTopColor.CGColor, (id)segmentGradientBottomColor.CGColor];
-		CGFloat segmentGradientLocations[] = {0, 1};
-		segmentGradient = CGGradientCreateWithColors(colorSpace, (__bridge CFArrayRef)segmentGradientColors, segmentGradientLocations);
-	}
 	
 	// shadows
-	CGSize segmentHighlightOffset = CGSizeMake(0.1, 1.1);
-	CGFloat segmentHighlightBlurRadius = 2;
+	CGSize segmentHighlightOffset = CGSizeMake(0.0, 0.0);
+	CGFloat segmentHighlightBlurRadius = 0;
 	
 	{
 		CGContextSaveGState(context);
@@ -827,18 +817,13 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		UIBezierPath *segmentBasePath = [UIBezierPath bezierPathWithRoundedRect:segmentBaseRect cornerRadius:radius];
 		CGContextSaveGState(context);
 		[segmentBasePath addClip];
-		if (segmentGradient) {
-			CGContextDrawLinearGradient(context, segmentGradient,
-										CGPointMake(CGRectGetMidX(segmentBaseRect), CGRectGetMinY(segmentBaseRect)),
-										CGPointMake(CGRectGetMidX(segmentBaseRect), CGRectGetMaxY(segmentBaseRect)),
-										0);
-		}
+		
 		CGContextRestoreGState(context);
 		
 		// inner shadow
 		CGRect segmentBaseBorderRect = CGRectInset([segmentBasePath bounds], -segmentHighlightBlurRadius, -segmentHighlightBlurRadius);
 		segmentBaseBorderRect = CGRectOffset(segmentBaseBorderRect, -segmentHighlightOffset.width, -segmentHighlightOffset.height);
-		segmentBaseBorderRect = CGRectInset(CGRectUnion(segmentBaseBorderRect, [segmentBasePath bounds]), -1, -1);
+		segmentBaseBorderRect = CGRectInset(CGRectUnion(segmentBaseBorderRect, [segmentBasePath bounds]), 0, 0);
 		
 		UIBezierPath* segmentBaseNegativePath = [UIBezierPath bezierPathWithRect:segmentBaseBorderRect];
 		[segmentBaseNegativePath appendPath: segmentBasePath];
@@ -865,7 +850,6 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		CGContextRestoreGState(context);
 	}
 	
-	CGGradientRelease(segmentGradient);
 	CGColorSpaceRelease(colorSpace);
 	
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
