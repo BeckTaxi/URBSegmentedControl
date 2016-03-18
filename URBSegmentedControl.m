@@ -638,7 +638,7 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		self.imageView.layer.shadowColor = [UIColor blackColor].CGColor;
 		self.imageView.layer.shadowOffset = CGSizeMake(0.0, 1.0);
 		self.imageView.layer.shadowRadius = 0;
-		self.imageView.layer.shadowOpacity = 1.0;
+		self.imageView.layer.shadowOpacity = 0.0;
 		self.imageView.layer.shouldRasterize = YES;
 		self.imageView.layer.rasterizationScale = self.imageView.image.scale;
 		self.imageView.layer.masksToBounds = NO;
@@ -752,7 +752,7 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 	[super setSelected:selected];
 	
 	if (selected)
-		self.layer.shadowOpacity = 0.8;
+		self.layer.shadowOpacity = 0.0;
 	else
 		self.layer.shadowOpacity = 0;
 }
