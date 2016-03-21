@@ -651,6 +651,10 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		
 		_hasDrawnImages = NO;
 		_adjustInsetsForSize = YES;
+        
+        
+        
+
 	}
 	return self;
 }
@@ -726,6 +730,10 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 - (void)setImageBackgroundColor:(UIColor *)imageBackgroundColor {
 	if (imageBackgroundColor != _imageBackgroundColor) {
 		_imageBackgroundColor = imageBackgroundColor;
+        
+        self.layer.borderWidth = 0.5f;
+        self.layer.borderColor = _imageBackgroundColor.CGColor;
+        self.layer.cornerRadius = self.cornerRadius;
 		
 		// only update backgrounds if they've been drawn already
 		if (_hasDrawnImages)
@@ -786,8 +794,8 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 	CGSize size = CGSizeMake(20.0, 20.0);
 	UIGraphicsBeginImageContextWithOptions(size, NO, 0.0f);
 	
-	CGFloat stroke = 0.0;
-	CGFloat radius = self.cornerRadius - 0.0;
+	CGFloat stroke = 5.0;
+    CGFloat radius = 0.0;
 	CGRect frame = CGRectMake(0, 0, size.width, size.height);
 	
 	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
