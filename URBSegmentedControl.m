@@ -632,7 +632,7 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		self.viewLayout = URBSegmentViewLayoutDefault;
 		
 		self.titleLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
-		self.titleLabel.textAlignment = UITextAlignmentCenter;
+		self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.adjustsFontSizeToFitWidth = YES;
 		
 		self.imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -660,10 +660,13 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 }
 
 - (void)setTextAttributes:(NSDictionary *)textAttributes forState:(UIControlState)state {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	UIFont *font = [textAttributes objectForKey:UITextAttributeFont];
 	UIColor *textColor = [textAttributes objectForKey:UITextAttributeTextColor];
 	UIColor *textShadowColor = [textAttributes objectForKey:UITextAttributeTextShadowColor];
 	NSValue *shadowOffsetValue = [textAttributes objectForKey:UITextAttributeTextShadowOffset];
+#pragma clang diagnostic pop
 	
     if (font) {
 		self.titleLabel.font = font;
