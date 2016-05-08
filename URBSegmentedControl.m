@@ -29,7 +29,6 @@
 
 @interface URBSegmentedControl ()
 @property (nonatomic, strong) NSMutableArray *items;
-@property (nonatomic, strong) UIImageView *backgroundView;
 @property (nonatomic, strong) NSMutableDictionary *staticSegmentWidths;
 @end
 
@@ -65,13 +64,6 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
     self.layoutOrientation = URBSegmentedControlOrientationHorizontal;
     self.segmentViewLayout = URBSegmentViewLayoutDefault;
 	self.imagePosition = URBSegmentImagePositionLeft;
-    
-    // base image view
-    _backgroundView = [[UIImageView alloc] init];
-    _backgroundView.backgroundColor = [UIColor clearColor];
-    _backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    _backgroundView.frame = self.frame;
-    [self insertSubview:_backgroundView atIndex:0];
 }
 
 - (id)init {
@@ -136,9 +128,9 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 	URBSegmentView *segmentView = [URBSegmentView new];
 	[segmentView setTitle:title forState:UIControlStateNormal];
 	[segmentView setImage:[image imageTintedWithColor:self.imageColor] forState:UIControlStateNormal];
-	[segmentView setImage:[image imageTintedWithColor:[self.imageColor adjustBrightness:1.2]] forState:UIControlStateHighlighted];
+	[segmentView setImage:[image imageTintedWithColor:[UIColor.lightGrayColor adjustBrightness:1.2]] forState:UIControlStateHighlighted];
 	[segmentView setImage:[image imageTintedWithColor:self.selectedImageColor] forState:UIControlStateSelected];
-	[segmentView setImage:[image imageTintedWithColor:[self.selectedImageColor adjustBrightness:0.8]] forState:UIControlStateSelected|UIControlStateHighlighted];
+	[segmentView setImage:[image imageTintedWithColor:[UIColor.lightGrayColor adjustBrightness:0.8]] forState:UIControlStateSelected|UIControlStateHighlighted];
 	[segmentView addTarget:self action:@selector(handleSelect:) forControlEvents:UIControlEventTouchUpInside];
 	
 	// set insets if set
@@ -529,10 +521,6 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 - (void)layoutSubviews {
 	[super layoutSubviews];
 	
-	self.backgroundView.frame = self.bounds;
-	if (!self.backgroundView.image) {
-		self.backgroundView.image = [self defaultBackgroundImage];
-	}
 	[self layoutSegments];
 	
 	if (self.layoutOrientation == URBSegmentedControlOrientationHorizontal) {
@@ -639,7 +627,7 @@ static CGSize const kURBDefaultSize = {300.0f, 44.0f};
 		self.imageView.layer.shouldRasterize = YES;
 		self.imageView.layer.rasterizationScale = self.imageView.image.scale;
 		self.imageView.layer.masksToBounds = NO;
-		
+        
 		self.layer.masksToBounds = NO;
 		
 		self.imageBackgroundColor = [UIColor redColor];
